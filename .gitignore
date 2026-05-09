@@ -1,0 +1,14 @@
+node_modules
+.next
+.env
+.env.local
+
+# SQLite databases (both dev and prod)
+prisma/dev.db
+prisma/dev.db-journal
+prisma/*.db
+prisma/*.db-journal
+
+# OS files
+.DS_Store
+Thumbs.db

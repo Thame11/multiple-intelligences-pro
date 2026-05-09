@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id          String   @id @default(cuid())
+  name        String
+  nationalId  String?
+  grade       String?
+  school      String?
+  createdAt   DateTime @default(now())
+  results     Result[]
+
+  @@index([name])
+  @@index([nationalId])
+}
+
+model Result {
+  id          String   @id @default(cuid())
+  studentId   String
+  answersJson String
+  scoresJson  String
+  top3Json    String
+  createdAt   DateTime @default(now())
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([studentId])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
