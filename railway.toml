@@ -1,9 +1,12 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npx prisma generate && npm run build"
+buildCommand = "npm run build"
+
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs_22", "npm-9_x", "openssl"]
 
 [deploy]
-startCommand = "sh start.sh"
+startCommand = "npx prisma migrate deploy && npx tsx scripts/seed.ts && npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
